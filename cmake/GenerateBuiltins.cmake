@@ -43,6 +43,7 @@ message(STATUS "M4 macro processor: " ${M4_EXECUTABLE})
 list(APPEND M4_IMPLICIT_DEPENDENCIES
     builtins/builtins-cm-32.ll
     builtins/builtins-cm-64.ll
+    builtins/sleef.m4
     builtins/svml.m4
     builtins/target-avx-utils.ll
     builtins/target-avx512-utils.ll

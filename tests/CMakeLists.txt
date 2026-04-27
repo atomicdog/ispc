@@ -25,6 +25,7 @@ list(APPEND LIT_ARGS "-Driscv_enabled=$<IF:$<BOOL:${RISCV_ENABLED}>,ON,OFF>")
 list(APPEND LIT_ARGS "-Dppc64_enabled=$<IF:$<BOOL:${PPC64_ENABLED}>,ON,OFF>")
 list(APPEND LIT_ARGS "-Dwasm_enabled=$<IF:$<BOOL:${WASM_ENABLED}>,ON,OFF>")
 list(APPEND LIT_ARGS "-Dxe_enabled=$<IF:$<BOOL:${XE_ENABLED}>,ON,OFF>")
+list(APPEND LIT_ARGS "-Dispc_sleef_enabled=$<IF:$<BOOL:${ISPC_SLEEF_ENABLED}>,ON,OFF>")
 # ISPC enabled OS.
 list(APPEND LIT_ARGS "-Dwindows_enabled=$<IF:$<BOOL:${ISPC_WINDOWS_TARGET}>,ON,OFF>")
 list(APPEND LIT_ARGS "-Dlinux_enabled=$<IF:$<BOOL:${ISPC_LINUX_TARGET}>,ON,OFF>")

@@ -95,6 +95,16 @@ svml(ISA)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; sleef -- alwaysinline thunks routing __sleef_<func><tl> calls to
+;; Sleef_<func><width>_u10<isa> external symbols.  User links -lsleef
+;; at their own link time.  Gated on --math-lib=sleef, validated up
+;; front in src/ispc.cpp.
+
+include(`sleef.m4')
+sleef(ISA)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; int min/max
 
 declare <8 x i32> @llvm.x86.avx2.pmins.d(<8 x i32>, <8 x i32>) nounwind readonly

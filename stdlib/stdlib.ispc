@@ -3367,6 +3367,8 @@ __declspec(safe) static inline float sin(float x_full) {
         return __sin_varying_float(x_full);
     } else if (__math_lib == __math_lib_svml) {
         return __svml_sinf(x_full);
+    } else if (__math_lib == __math_lib_sleef) {
+        return __sleef_sinf(x_full);
     } else if (__math_lib == __math_lib_system) {
         float ret;
         foreach_active(i) {
@@ -3600,6 +3602,8 @@ __declspec(safe) static inline float cos(float x_full) {
     }
     if (__math_lib == __math_lib_svml) {
         return __svml_cosf(x_full);
+    } else if (__math_lib == __math_lib_sleef) {
+        return __sleef_cosf(x_full);
     } else if (__math_lib == __math_lib_system) {
         float ret;
         foreach_active(i) {
@@ -4419,6 +4423,8 @@ __declspec(safe) static inline float exp(float x_full) {
         return __exp_varying_float(x_full);
     } else if (__math_lib == __math_lib_svml) {
         return __svml_expf(x_full);
+    } else if (__math_lib == __math_lib_sleef) {
+        return __sleef_expf(x_full);
     } else if (__math_lib == __math_lib_system) {
         float ret;
         foreach_active(i) {
@@ -4902,6 +4908,8 @@ __declspec(safe) static inline float log(float x_full) {
         return __log_varying_float(x_full);
     } else if (__math_lib == __math_lib_svml) {
         return __svml_logf(x_full);
+    } else if (__math_lib == __math_lib_sleef) {
+        return __sleef_logf(x_full);
     } else if (__math_lib == __math_lib_system) {
         float ret;
         foreach_active(i) {
@@ -5044,6 +5052,8 @@ __declspec(safe) static inline float pow(float a, float b) {
         return __pow_varying_float(a, b);
     } else if (__math_lib == __math_lib_svml) {
         return __svml_powf(a, b);
+    } else if (__math_lib == __math_lib_sleef) {
+        return __sleef_powf(a, b);
     } else if (__math_lib == __math_lib_system) {
         float ret;
         foreach_active(i) {

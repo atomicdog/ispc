@@ -409,6 +409,8 @@ typedef enum {
 #endif // ISPC_RISCV_ENABLED
 #ifdef ISPC_PPC64_ENABLED
     CPU_PPC64LE_Pwr8,
+    CPU_PPC64LE_Pwr9,
+    CPU_PPC64LE_Pwr10,
 #endif
 #ifdef ISPC_XE_ENABLED
     GPU_TGLLP,
@@ -521,6 +523,8 @@ std::map<DeviceType, std::set<std::string>> CPUFeatures = {
 #endif // ISPC_RISCV_ENABLED
 #ifdef ISPC_PPC64_ENABLED
     {CPU_PPC64LE_Pwr8, {}},
+    {CPU_PPC64LE_Pwr9, {}},
+    {CPU_PPC64LE_Pwr10, {}},
 #endif
 #ifdef ISPC_XE_ENABLED
     {GPU_TGLLP, {}},
@@ -654,6 +658,10 @@ class AllCPUs {
 
 #ifdef ISPC_PPC64_ENABLED
         names[CPU_PPC64LE_Pwr8].push_back("pwr8");
+        names[CPU_PPC64LE_Pwr9].push_back("pwr9");
+        names[CPU_PPC64LE_Pwr9].push_back("power9");
+        names[CPU_PPC64LE_Pwr10].push_back("pwr10");
+        names[CPU_PPC64LE_Pwr10].push_back("power10");
 #endif
 
 #ifdef ISPC_XE_ENABLED
@@ -777,6 +785,8 @@ class AllCPUs {
 
 #ifdef ISPC_PPC64_ENABLED
         compat[CPU_PPC64LE_Pwr8] = Set(CPU_PPC64LE_Pwr8, CPU_None);
+        compat[CPU_PPC64LE_Pwr9] = Set(CPU_PPC64LE_Pwr8, CPU_PPC64LE_Pwr9, CPU_None);
+        compat[CPU_PPC64LE_Pwr10] = Set(CPU_PPC64LE_Pwr8, CPU_PPC64LE_Pwr9, CPU_PPC64LE_Pwr10, CPU_None);
 #endif
 
 #ifdef ISPC_XE_ENABLED
@@ -1034,6 +1044,8 @@ Target::Target(Arch arch, const char *cpu, ISPCTarget ispc_target, PICLevel picL
 
 #ifdef ISPC_PPC64_ENABLED
         case CPU_PPC64LE_Pwr8:
+        case CPU_PPC64LE_Pwr9:
+        case CPU_PPC64LE_Pwr10:
             m_ispc_target = ISPCTarget::vsx_i32x4;
             break;
 #endif
@@ -2356,9 +2368,16 @@ Target::Target(Arch arch, const char *cpu, ISPCTarget ispc_target, PICLevel picL
             }
         }
 #endif
-        // VSX targets need +vsx features
+        // VSX targets need +vsx features.  Newer CPUs add their own
+        // ISA extensions; LLVM expects them as comma-separated +flags.
         if (ISPCTargetIsVSX(m_ispc_target)) {
-            featuresString = "+vsx";
+            if (m_cpu == "pwr10" || m_cpu == "power10") {
+                featuresString = "+vsx,+power9-vector,+power10-vector,+mma,+pcrelative-memops";
+            } else if (m_cpu == "pwr9" || m_cpu == "power9") {
+                featuresString = "+vsx,+power9-vector";
+            } else {
+                featuresString = "+vsx";
+            }
         }
         // Support 'i64' and 'double' types in cm
         if (isXeTarget()) {

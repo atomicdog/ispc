@@ -1270,7 +1270,7 @@ To compile for Intel Xe LP platform:
    ispc foo.ispc -o foo.bin --target=xelp-x16 --device=tgllp --emit-zebin
 
 Currently-supported architectures are ``x86``, ``x86-64``, ``xe64``,
-``arm``, and ``aarch64``.
+``arm``, ``aarch64``, and ``ppc64le``.
 
 The target CPU determines both the default instruction set used as well as
 which CPU architecture the code is tuned for.  ``ispc --help`` provides a
@@ -1316,6 +1316,7 @@ avx512spr     AVX-512 + AMX             Intel Sapphire Rapids (2023)
 avx512gnr     AVX-512 + AMX FP16        Intel Granite Rapids (2024)
 avx10.2dmr    AVX10.2 + AMX             Intel Diamond Rapids (2026+)
 neon          ARMv8 NEON                ARM Cortex-A35/A53/A57 (2012-2015)
+vsx           VSX (POWER ISA 2.07+)     IBM POWER8 (2014), POWER9 (2017), POWER10 (2021)
 ============= ========================= ===========================================================
 
 .. [#] This exclude models branded as Celeron and Pentium (starting with

@@ -1206,6 +1206,22 @@ Target::Target(Arch arch, const char *cpu, ISPCTarget ispc_target, PICLevel picL
         Error(SourcePos(), "SVML math library is supported for x86 targets only.");
         return;
     }
+    if (g->mathLib == Globals::MathLib::Math_Sleef) {
+#ifdef ISPC_SLEEF_ENABLED
+        // Initial scope: only avx2-i32x8 has the sleef wrappers wired in.
+        // Additional targets (sse4-*, avx512skx-*, neon-*, vsx-*, ...) get
+        // added as their target-*.ll gains a sleef() invocation.
+        if (m_ispc_target != ISPCTarget::avx2_i32x8) {
+            Error(SourcePos(), "Sleef math library is not yet wired up for this target. "
+                               "Currently supported targets: avx2-i32x8.");
+            return;
+        }
+#else
+        Error(SourcePos(), "Sleef math library was not built into this ispc binary. "
+                           "Rebuild with -DISPC_SLEEF_ENABLED=ON.");
+        return;
+#endif
+    }
 
     // Check default LLVM generated targets
     bool unsupported_target = false;

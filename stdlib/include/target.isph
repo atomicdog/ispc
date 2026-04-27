@@ -26,6 +26,12 @@ static const uniform int32 __math_lib_ispc_fast = ISPC_MATH_LIB_ISPC_FAST_VAL;
 
 static const uniform int32 __math_lib_svml = ISPC_MATH_LIB_SVML_VAL;
 
+#ifndef ISPC_MATH_LIB_SLEEF_VAL
+#error ISPC_MATH_LIB_SLEEF_VAL undefined
+#endif
+
+static const uniform int32 __math_lib_sleef = ISPC_MATH_LIB_SLEEF_VAL;
+
 #ifndef ISPC_MATH_LIB_SYSTEM_VAL
 #error ISPC_MATH_LIB_SYSTEM_VAL undefined
 #endif

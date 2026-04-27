@@ -721,7 +721,7 @@ struct Globals {
 
     /** There are a number of math libraries that can be used for
         transcendentals and the like during program compilation. */
-    enum class MathLib { Math_ISPC, Math_ISPCFast, Math_SVML, Math_System };
+    enum class MathLib { Math_ISPC, Math_ISPCFast, Math_SVML, Math_System, Math_Sleef };
     MathLib mathLib;
 
     /** Optimization level to be specified while creating TargetMachine. */

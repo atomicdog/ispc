@@ -108,6 +108,7 @@ static ArgsParseResult usage() {
     printf("        default\t\t\t\tUse ispc's built-in math functions\n");
     printf("        fast\t\t\t\tUse high-performance but lower-accuracy math functions\n");
     printf("        svml\t\t\t\tUse the Intel(r) SVML math libraries\n");
+    printf("        sleef\t\t\t\tUse the Sleef math library (link with -lsleef at link time)\n");
     printf("        system\t\t\t\tUse the system's math library (*may be quite slow*)\n");
     printf("    [-f[no-]function-sections]\t\tPlace each function in its own section\n");
     printf("    [--mcmodel=<value>]\t\t\tDefine the code model to use for code generation\n");
@@ -835,6 +836,8 @@ ArgsParseResult ispc::ParseCommandLineArgs(int argc, char *argv[], std::string &
                 g->mathLib = Globals::MathLib::Math_ISPCFast;
             } else if (!strcmp(lib, "svml")) {
                 g->mathLib = Globals::MathLib::Math_SVML;
+            } else if (!strcmp(lib, "sleef")) {
+                g->mathLib = Globals::MathLib::Math_Sleef;
             } else if (!strcmp(lib, "system")) {
                 g->mathLib = Globals::MathLib::Math_System;
             } else {

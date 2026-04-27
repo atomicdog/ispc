@@ -337,6 +337,8 @@ static void lSetPreprocessorOptions(const std::shared_ptr<clang::PreprocessorOpt
     opts->addMacroDef(math_lib_ispc_fast);
     std::string math_lib_svml = "ISPC_MATH_LIB_SVML_VAL=" + std::to_string((int)Globals::MathLib::Math_SVML);
     opts->addMacroDef(math_lib_svml);
+    std::string math_lib_sleef = "ISPC_MATH_LIB_SLEEF_VAL=" + std::to_string((int)Globals::MathLib::Math_Sleef);
+    opts->addMacroDef(math_lib_sleef);
     std::string math_lib_system = "ISPC_MATH_LIB_SYSTEM_VAL=" + std::to_string((int)Globals::MathLib::Math_System);
     opts->addMacroDef(math_lib_system);
 

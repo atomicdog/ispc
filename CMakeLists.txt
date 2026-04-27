@@ -167,6 +167,7 @@ option(RISCV_ENABLED "Enable RISC-V support" OFF)
 option(PPC64_ENABLED "Enable PowerPC64 support" OFF)
 option(WASM_ENABLED "Enable experimental Web Assembly support" OFF)
 option(XE_ENABLED "Enable Intel Xe support" OFF)
+option(ISPC_SLEEF_ENABLED "Enable --math-lib=sleef option (user must link -lsleef)" OFF)
 
 option(ISPC_CROSS "Build ISPC with cross compilation support" OFF)
 # Default settings for cross compilation
@@ -665,6 +666,10 @@ endif()
 
 if (PPC64_ENABLED)
     list(APPEND COMPILE_DEFINITIONS ISPC_PPC64_ENABLED)
+endif()
+
+if (ISPC_SLEEF_ENABLED)
+    list(APPEND COMPILE_DEFINITIONS ISPC_SLEEF_ENABLED)
 endif()
 
 if (XE_ENABLED)

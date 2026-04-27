@@ -1,9 +1,10 @@
-// Verify that vsx-i32x4 emits native VSX reciprocal-estimate instructions
-// (xvresp, xvrsqrtesp) plus a Newton-Raphson refinement using xvmaddasp,
-// rather than the scalar-fallback lane-by-lane sequence the parent generic
-// target produces.
+// Verify that the native VSX widths emit native reciprocal-estimate
+// instructions (xvresp, xvrsqrtesp) plus a Newton-Raphson refinement
+// using xvmaddasp, rather than the scalar-fallback lane-by-lane
+// sequence the parent generic target produces.
 
 // RUN: %{ispc} %s --target=vsx-i32x4 --arch=ppc64le --target-os=linux --nowrap -O2 --emit-asm -o - | FileCheck %s
+// RUN: %{ispc} %s --target=vsx-i32x8 --arch=ppc64le --target-os=linux --nowrap -O2 --emit-asm -o - | FileCheck %s
 
 // REQUIRES: PPC64_ENABLED && LINUX_ENABLED
 

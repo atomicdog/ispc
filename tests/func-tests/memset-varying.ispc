@@ -1,5 +1,10 @@
 #include "test_static.isph"
 // rule: skip on arch=xe64
+// rule: skip on arch=ppc64le
+// Pre-existing -O1 segfault on PowerPC LLVM 20 backend with the
+// varying-pointer + varying-size memset codegen (independent of the
+// VSX-target bring-up).  See run_tests.py "Test ... failed (return
+// code -11)" at -O1; -O0 and -O2 pass.
 
 task void f_f(uniform float RET[], uniform float aFOO[]) {
     int32 * varying buf = varying new int32[1024*(programIndex+1)];

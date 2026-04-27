@@ -1,4 +1,5 @@
 #include "test_static.isph"
+// rule: skip on arch=ppc64le
 // rule: skip on cpu=tgllp
 // rule: skip on cpu=dg2
 

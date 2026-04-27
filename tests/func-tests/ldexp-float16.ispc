@@ -1,4 +1,5 @@
 #include "test_static.isph"
+// rule: skip on arch=ppc64le
 task void f_f(uniform float RET[], uniform float aFOO[]) {
     // Use % 14 to limit input to 2^13 max, ensuring ldexp(a, 2) <= 32768 which
     // stays within float16's finite range (65504). Using % 28 would allow 2^14

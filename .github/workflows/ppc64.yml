@@ -13,6 +13,10 @@ on:
       - 'cmake/**'
       - 'CMakeLists.txt'
       - '.github/workflows/ppc64.yml'
+  schedule:
+    # Nightly run at 07:00 UTC so trunk regressions surface even on
+    # days where no PR touches the paths above.
+    - cron: '0 7 * * *'
   workflow_dispatch:
 
 concurrency:
@@ -21,8 +25,13 @@ concurrency:
 
 jobs:
   ppc64-native-test:
-    name: PowerPC64LE test (native)
+    name: PowerPC64LE native (${{ matrix.target }} ${{ matrix.opt }})
     runs-on: ubuntu-24.04-ppc64le
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [generic-i32x4, vsx-i32x4, vsx-i32x8]
+        opt: [O0, O1, O2]
 
     steps:
     - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
@@ -52,23 +61,32 @@ jobs:
         cmake --build build -j"$(nproc)"
 
     - name: Run lit tests
+      # Lit tests don't depend on the matrix axes (they pick their own
+      # targets from RUN: lines), so only run them once per job to keep
+      # CI time bounded.
+      if: matrix.target == 'vsx-i32x4' && matrix.opt == 'O2'
       run: |
         cmake --build build --target check-all
 
-    - name: Run PPC64LE VSX tests
+    - name: Run PPC64LE functional tests
       run: |
         PATH="$PWD"/build/bin:"$PATH" \
         python3 scripts/run_tests.py \
-          --target=vsx-i32x4 \
+          --target=${{ matrix.target }} \
           --arch=ppc64le \
           --compiler=g++ \
-          -o O2
+          -o ${{ matrix.opt }}
 
   ppc64-cross-test:
-    name: PowerPC64LE test (cross-compiled)
+    name: PowerPC64LE cross (${{ matrix.target }} ${{ matrix.opt }})
     runs-on: ubuntu-24.04
     env:
       LLVM_TAR: llvm-21.1.8-ubuntu22.04-Release+Asserts-x86.arm.ppc.wasm.tar.xz
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [generic-i32x4, vsx-i32x4, vsx-i32x8]
+        opt: [O0, O1, O2]
 
     steps:
     - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
@@ -98,15 +116,19 @@ jobs:
         cmake --build build -j"$(nproc)"
 
     - name: Run lit tests
+      # Lit tests don't depend on the matrix axes (they pick their own
+      # targets from RUN: lines), so only run them once per job to keep
+      # CI time bounded.
+      if: matrix.target == 'vsx-i32x4' && matrix.opt == 'O2'
       run: |
         cmake --build build --target check-all
 
-    - name: Run PPC64LE VSX tests
+    - name: Run PPC64LE functional tests
       run: |
         PATH="$PWD"/build/bin:"$PATH" \
         python3 scripts/run_tests.py \
-          --target=vsx-i32x4 \
+          --target=${{ matrix.target }} \
           --arch=ppc64le \
           --wrap-exe="qemu-ppc64le" \
           --compiler=powerpc64le-linux-gnu-g++ \
-          -o O2
+          -o ${{ matrix.opt }}

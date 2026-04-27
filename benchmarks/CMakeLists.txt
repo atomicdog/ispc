@@ -78,6 +78,8 @@ add_custom_target(${BENCHMARKS_PROJECT_NAME})
 
 if (X86_HOST)
     set(BENCHMARKS_ISPC_TARGETS "avx2-i32x8" CACHE STRING "Comma separated list of ISPC targets to build benchmarks")
+elseif (PPC64LE_HOST)
+    set(BENCHMARKS_ISPC_TARGETS "vsx-i32x4" CACHE STRING "Comma separated list of ISPC targets to build benchmarks")
 else()
     set(BENCHMARKS_ISPC_TARGETS "neon-i32x4" CACHE STRING "Comma separated list of ISPC targets to build benchmarks")
 endif()

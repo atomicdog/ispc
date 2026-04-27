@@ -141,6 +141,11 @@ if (${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "amd64|AMD64|86")
     set(X86_HOST TRUE)
 endif()
 
+set(PPC64LE_HOST FALSE)
+if (${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "ppc64le|powerpc64le")
+    set(PPC64LE_HOST TRUE)
+endif()
+
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindLLVM.cmake)
 run_llvm_config(LLVM_TARGETS_BUILT "--targets-built")
 
